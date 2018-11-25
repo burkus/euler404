@@ -13,17 +13,17 @@ double _gamma;
 double max_a;
 double q_max;
 double Estimate;
-long n = 1000;
-long **triples;
-long **m;
+long long n = 1000;
+long long **triples;
+long long **m;
 
-long solve(long n) {
-  long count = 0;
-  for(long ell = 0; ell <= 500; ell++) {
-    for(long k = 1; k < ell; k++) {
-      long A = a(k, ell);
-      long B = b(k, ell);
-      long C = c(k, ell);
+long long solve(long long n) {
+  long long count = 0;
+  for(long long ell = 0; ell <= 500; ell++) {
+    for(long long k = 1; k < ell; k++) {
+      long long A = a(k, ell);
+      long long B = b(k, ell);
+      long long C = c(k, ell);
       if(A > 0 && A < n) {
         if(A < B && B < C && C < 2 * A) {
           triples[count] = cons_triple(A, B, C);
@@ -43,15 +43,15 @@ void init() {
   max_a = 4.1029;
   q_max = pow( (n / max_a), 2 );
   Estimate = _gamma * pow(q_max, 2);
-  triples = (long **) malloc(LENGTH * sizeof(long**));
-  m = (long **) malloc(LENGTH * sizeof(long**));
+  triples = (long long **) malloc(LENGTH * sizeof(long long**));
+  m = (long long **) malloc(LENGTH * sizeof(long long**));
 }
 
-int getCount(int argc, char **args) {
+long long getCount(long long argc, char **args) {
   if(argc > 0) {
     // takes N as CLI arg
     if(argc == 2) {
-      long count = atoi(args[1]);
+      long long count = atoll(args[1]);
       if(count > 0) {
         return count;
       }
@@ -62,11 +62,11 @@ int getCount(int argc, char **args) {
 
 int main(int argc, char **argv) {
   init();
-  long count = getCount(argc, argv);
+  long long count = getCount(argc, argv);
   printf("Running solution for Euler 404...\n");
-  printf("\tSize of N is %ld\n", count);
+  printf("\tSize of N is %lld\n", count);
   count = solve(count);
-  printf("\tNumber of triples found %ld\n", count);
+  printf("\tNumber of triples found %lld\n", count);
   free(triples);
   free(m);
   return 0;
