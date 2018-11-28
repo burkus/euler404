@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "euler.h"
 #define LENGTH 512
 #define DEFAULT_N 1024
@@ -33,6 +34,7 @@ long long solve(long long n) {
       }
     }
   }
+  triples[count] = cons_triple(0, 0, 0);
   return count;
 }
 
@@ -47,10 +49,10 @@ void init() {
   m = (long long **) malloc(LENGTH * sizeof(long long**));
 }
 
-long long getCount(long long argc, char **args) {
+long long getCount(int argc, char **args) {
   if(argc > 0) {
     // takes N as CLI arg
-    if(argc == 2) {
+    if(argc >= 2) {
       long long count = atoll(args[1]);
       if(count > 0) {
         return count;
@@ -60,13 +62,26 @@ long long getCount(long long argc, char **args) {
   return DEFAULT_N;
 }
 
+int getPrint(int argc, char **args) {
+  if(argc == 3){
+    if(strcmp(args[2], "-p") == 0) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 int main(int argc, char **argv) {
   init();
   long long count = getCount(argc, argv);
+  int print = getPrint(argc, argv);
   printf("Running solution for Euler 404...\n");
   printf("\tSize of N is %lld\n", count);
   count = solve(count);
   printf("\tNumber of triples found %lld\n", count);
+  if(print) {
+    print_triples(triples, count);
+  }
   free(triples);
   free(m);
   return 0;
